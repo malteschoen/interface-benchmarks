@@ -1,0 +1,93 @@
+#!/bin/sh
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+#------------------------------------------------------------------------------
+
+printHelp() {
+    cat<<USAGE
+
+usage: ${0##*/} [OPTION]
+
+options:
+    -parallel           Run one simulation in a parallel manner
+    -help               Print the usage
+
+USAGE
+    exit 0 # A clean exit
+}
+    # -with-bear          Use Visual Studio Code Bindings for OpenFOAM
+    # -parallel-runs=X    Run X multiple simulations at the same time
+
+# Report error and exit
+die()
+{
+    exec 1>&2
+    echo
+    echo "Error encountered:"
+    while [ "$#" -ge 1 ]; do echo "    $1"; shift; done
+    echo
+    echo "See '${0##*/} -help' for usage"
+    echo
+    exit 1
+}
+
+
+# Set default(s)
+# number of parameter studies to run at the same time
+# parallelRuns=1
+# Run simulation in a parallel manner
+parallel=false
+# Option for Visual Studio Code Bindings for OpenFOAM
+# WITH_BEAR=""
+
+
+# Parse input options
+while [ "$#" -gt 0 ]
+do
+    case "$1" in
+    -h* | -help*)   printHelp ;;
+    # -with-bear)
+    #     WITH_BEAR="-with-bear"
+    #     ;;
+    # -parallel-runs=*)
+    #     parallelRuns="${1#*=}"
+    #     echo "Set number of parallel runs to $parallelRuns"
+    #     ;;
+    -parallel)
+        parallel=true
+        echo "Set execution to parallel."
+        ;;
+    *)
+        die "Unknown option/argument: '$1'"
+        ;;
+    esac
+    shift
+done
+
+
+restore0Dir
+
+gzip -d bubble3D-r1.0mm.msh.gz
+runApplication fluent3DMeshToFoam bubble3D-r1.0mm.msh
+gzip bubble3D-r1.0mm.msh
+
+runApplication makeFaMesh
+
+if [ "$parallel" = true ] ; then
+    echo "Chosen parallel execution."
+    runApplication writePhaseFraction
+    runApplication decomposePar
+    runParallel $(getApplication)
+    # runApplication reconstructPar
+else
+    echo "Chosen serial execution."
+    runApplication $(getApplication)
+fi
+
+
+# jupyter nbconvert postProcessingParamStudy.ipynb --execute --to markdown
+# if [ "$(cat result.txt)" = "true" ]; then echo "Result could be ok!"; fi
+# if [ "$(cat result.txt)" != "true" ]; then exit 1; fi
+
+
+#------------------------------------------------------------------------------

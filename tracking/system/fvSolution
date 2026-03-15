@@ -1,0 +1,115 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "p|pFinal"
+    {
+        // solver          PCG;
+        // preconditioner  DIC;
+        // tolerance       1e-12;
+        // relTol          1e-3;
+
+        solver          GAMG;
+        tolerance       1e-12;
+        relTol          1e-2;
+        smoother        GaussSeidel;
+        cacheAgglomeration no;
+    }
+
+    // pFinal
+    // {
+    //     $p;
+    //     tolerance       1e-08;
+    //     relTol          0;
+    // }
+
+    // "pcorr.*"
+    // {
+    //     $p
+    //     tolerance       0.02;
+    //     relTol          0;
+    // }
+
+    "U|UFinal"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-9;
+        relTol          1e-2;
+    }
+
+    // UFinal
+    // {
+    //     $U;
+    //     tolerance       1e-11;
+    //     relTol          0;
+    // }
+
+    "cellMotionU|cellMotionUFinal"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-9;
+        relTol          1e-3;
+    }
+}
+
+PIMPLE
+{
+    correctPhi          no;
+    
+    nOuterCorrectors    20;
+    nCorrectors         3;
+    nNonOrthogonalCorrectors 1;
+
+    pRefValue 0;
+    // ZT: Required for bubble ITM case
+    pRefPoint (1e-6 1e-6 1e-6);
+
+    moveMeshOuterCorrectors true;
+
+    consistent false;
+    
+    residualControl
+    {
+        U
+        {
+            relTol 1e-6;
+            tolerance 1e-6;
+        }
+    }
+
+    // ZT: Required for bubble ITM case
+    forceSetRef true;
+}
+
+relaxationFactors
+{
+    equations
+    {
+        "U.*" 0.99;
+    }
+
+    fields
+    {
+        "p.*" 0.99;
+    }
+}
+
+
+// ************************************************************************* //
