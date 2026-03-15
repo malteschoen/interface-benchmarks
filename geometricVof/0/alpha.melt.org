@@ -8,46 +8,44 @@
 FoamFile
 {
     version     2.0;
-    format      ascii;
+    format      binary;
     arch        "LSB;label=32;scalar=64";
-    class       polyBoundaryMesh;
-    location    "constant/polyMesh";
-    object      boundary;
+    class       volScalarField;
+    location    "0";
+    object      alpha.melt;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-5
-(
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
     inlet
     {
-        type            patch;
-        nFaces          159;
-        startFace       12723;
-    }
-    side
-    {
-        type            patch;
-        nFaces          408;
-        startFace       12882;
+        type            fixedValue;
+        value           uniform 1;
     }
     symm
     {
-        type            patch;
-        nFaces          288;
-        startFace       13290;
+        type            symmetry;
     }
     outlet
     {
-        type            patch;
-        nFaces          159;
-        startFace       13578;
+        type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
+    }
+    side
+    {
+        type            zeroGradient;
     }
     defaultFaces
     {
-        type            patch;
-        nFaces          516;
-        startFace       13737;
+        type            zeroGradient;
     }
-)
+}
+
 
 // ************************************************************************* //

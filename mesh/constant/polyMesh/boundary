@@ -21,32 +21,32 @@ FoamFile
     inlet
     {
         type            patch;
-        nFaces          222;
-        startFace       13959;
-    }
-    symm
-    {
-        type            patch;
-        nFaces          288;
-        startFace       14181;
-    }
-    outlet
-    {
-        type            symmetry;
-        nFaces          222;
-        startFace       14469;
+        nFaces          159;
+        startFace       12723;
     }
     side
     {
         type            patch;
-        nFaces          444;
-        startFace       14691;
+        nFaces          408;
+        startFace       12882;
+    }
+    symm
+    {
+        type            symmetry;
+        nFaces          288;
+        startFace       13290;
+    }
+    outlet
+    {
+        type            patch;
+        nFaces          159;
+        startFace       13578;
     }
     defaultFaces
     {
         type            patch;
-        nFaces          522;
-        startFace       15135;
+        nFaces          516;
+        startFace       13737;
     }
 )
 

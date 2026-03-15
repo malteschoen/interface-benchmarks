@@ -10,49 +10,26 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "system";
-    object      fvSchemes;
+    object      setFieldsDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-ddtSchemes
-{
-    default         Euler;
-}
+defaultFieldValues
+(
+    volScalarFieldValue alpha.melt 1
+);
 
-gradSchemes
-{
-     default cellLimited Gauss linear 1;
-}
-
-divSchemes
-{
-    div(rhoPhi,U)   Gauss upwind;
-    div(phi,k)      Gauss upwind;
-    div(phi,omega)  Gauss upwind;
-    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
-}
-
-laplacianSchemes
-{
-    default         Gauss linear corrected;
-}
-
-interpolationSchemes
-{
-    default         linear;
-}
-
-snGradSchemes
-{
-    //default         corrected;
-	default limited 0.5;
-}
-
-wallDist
-{
-    method          meshWave;
-}
+regions
+(
+    boxToCell
+    {
+        box (-100 -0.0025 -100) (100 100 0);
+        fieldValues
+        (
+            volScalarFieldValue alpha.melt 0
+        );
+    }
+);
 
 
 // ************************************************************************* //

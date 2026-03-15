@@ -8,46 +8,14 @@
 FoamFile
 {
     version     2.0;
-    format      ascii;
+    format      binary;
     arch        "LSB;label=32;scalar=64";
-    class       polyBoundaryMesh;
+    class       regIOobject;
     location    "constant/polyMesh";
-    object      boundary;
+    object      faceZones;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-5
-(
-    inlet
-    {
-        type            patch;
-        nFaces          159;
-        startFace       12723;
-    }
-    side
-    {
-        type            patch;
-        nFaces          408;
-        startFace       12882;
-    }
-    symm
-    {
-        type            patch;
-        nFaces          288;
-        startFace       13290;
-    }
-    outlet
-    {
-        type            patch;
-        nFaces          159;
-        startFace       13578;
-    }
-    defaultFaces
-    {
-        type            patch;
-        nFaces          516;
-        startFace       13737;
-    }
-)
+0()
 
 // ************************************************************************* //

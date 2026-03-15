@@ -31,13 +31,13 @@ upperRefineLevel 0.999;
 unrefineLevel   10;
 
 // Have slower than 2:1 refinement
-nBufferLayers   1;
+nBufferLayers   2;
 
 // Refine cells only up to maxRefinement levels
 maxRefinement   1;
 
 // Stop refinement if maxCells reached
-maxCells        150000000;
+maxCells        10000;
 
 // Flux field and corresponding velocity field. Fluxes on changed
 // faces get recalculated by interpolating the velocity. Use 'none'
