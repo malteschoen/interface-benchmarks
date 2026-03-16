@@ -25,8 +25,8 @@ deltaT          1e-8;
 
 //writeControl    adjustable;
 writeControl	timeStep;
-writeInterval   20;
-purgeWrite      0;
+writeInterval   100;
+purgeWrite      3;
 writeFormat     binary;
 writePrecision  9;
 writeCompression    off;

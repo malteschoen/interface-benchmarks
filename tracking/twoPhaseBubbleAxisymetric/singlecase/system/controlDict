@@ -1,0 +1,83 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+libs
+(
+    "libtwoPhaseInterfaceTrackingDev.so"
+);
+
+application     itmPimpleFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.2;
+
+deltaT          2.5e-5; // 1e-05;
+
+writeControl    timeStep;
+
+writeInterval   40;
+
+purgeWrite      0;
+
+writeFormat     ascii; //binary;
+
+writePrecision  12;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+functions
+{
+    bubbleMRF
+    {
+        type bubbleMRF;
+        lambdaFf 1.0;
+        lambdaF0 1.0;
+        farFieldPatchName space;
+    }
+
+    // writeFreeSurfaceCurvature
+    // {
+    //     type writeFreeSurfaceCurvature;
+    //     libs
+    //     (
+    //         "libwriteFreeSurfaceCurvature.so"
+    //     );
+    // }
+}
+
+DebugSwitches
+{
+    faMesh 0;
+}
+
+OptimisationSwitches
+{
+    faQuadricsFit 1; // it is off
+}
+
+// ************************************************************************* //

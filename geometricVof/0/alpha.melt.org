@@ -22,11 +22,38 @@ internalField   uniform 0;
 
 boundaryField
 {
-    inlet
-    {
-        type            fixedValue;
-        value           uniform 1;
+	inlet
+   	 {
+        type            codedFixedValue;			
+        value           uniform 0;					
+        name	    alphaProfileInlet;	
+
+        code							
+        #{
+	const vectorField& Cf = this->patch().Cf();
+
+
+        scalarField alpha(Cf.size(), 0.0);
+		
+            	forAll(Cf, faceI)					
+            	{
+		scalar z = Cf[faceI].z();
+
+		    if (z > 0)
+		    {
+		        alpha[faceI] = 1.0;
+		    }
+		    else
+		    {
+		        alpha[faceI] = 0.0;
+		    }
+		}
+
+        operator==(alpha);
+		
+        #};
     }
+
     symm
     {
         type            symmetry;

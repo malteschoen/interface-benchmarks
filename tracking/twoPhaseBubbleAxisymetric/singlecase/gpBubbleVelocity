@@ -1,0 +1,12 @@
+set terminal postscript enhanced color solid
+
+set output "bubbleVelocity.ps"
+set xlabel "Time, s"
+set ylabel "Velocity of the bubble MRF, Uy [m/s]"
+set grid
+plot [0:] "./history/0/mrfHistory.txt" using 1:3 notitle with lines
+
+
+
+set output
+set terminal x11

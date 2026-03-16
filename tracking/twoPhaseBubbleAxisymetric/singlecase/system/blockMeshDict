@@ -1,0 +1,293 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM Extend Project: Open Source CFD        |
+|  \\    /   O peration     | Version:  1.6-ext                               |
+|   \\  /    A nd           | Web:      www.extend-project.de                 |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant/polyMesh";
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// M4
+
+
+
+
+
+
+
+
+// INPUT: GEOMETRY
+                 // cylinder
+// define(R, 0.0375)                 // cylinder
+               // bubble
+                 // length
+
+//define(s, 2)                 // Refining the mesh (use integer values)
+
+// Mesh setting for air
+ // Nb. of cells in radial direction
+  // Nb. of cells in tangential direction
+
+  // Nb. of cells in axial direction
+ //rate of growth in radial direction
+// define(grA, 120) //rate of growth in radial direction
+
+//Mesh setting for droplet
+ //nb of cells in tan direction for bubble
+ //nb of cells in rad direction for bubble
+ // growth in radial direction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+vertices
+(
+// Slab
+
+    //Plane A:
+    (0                0.02              0.00025 ) // Vertex A0 = 0 
+
+    (0.02                0              0.00025 ) // Vertex A1 = 1 
+
+    (0               -0.02              0.00025 ) // Vertex A2 = 2 
+
+
+    //Plane A:
+    (0                0.000725              0.00025 ) // Vertex A3 = 3 
+
+    (0.000725                0              0.00025 ) // Vertex A4 = 4 
+
+    (0               -0.000725              0.00025 ) // Vertex A5 = 5 
+
+
+    //Plane A:
+    (0                0.02              -0.00025 ) // Vertex A6 = 6 
+
+    (0.02                0              -0.00025 ) // Vertex A7 = 7 
+
+    (0               -0.02              -0.00025 ) // Vertex A8 = 8 
+
+
+    //Plane A:
+    (0                0.000725              -0.00025 ) // Vertex A9 = 9 
+
+    (0.000725                0              -0.00025 ) // Vertex A10 = 10 
+
+    (0               -0.000725              -0.00025 ) // Vertex A11 = 11 
+
+
+//bubble
+
+    //Plane A:
+    (0   	     0.000725   	    -0.00025 ) // Vertex R1 = 12 
+
+    (0.000512652416360247   0.000512652416360247  -0.00025 ) // Vertex R2 = 13 
+
+    (0.000725   	     0   	    -0.00025 ) // Vertex R3 = 14 
+
+    (0.000512652416360247   -0.000512652416360247 -0.00025 ) // Vertex R4 = 15 
+
+    (0   	     -0.000725   	    -0.00025 ) // Vertex R5 = 16 
+
+
+    (0  	     0.000414285714285714  	    -0.00025 ) // Vertex s1 = 17 
+
+    (0.000333391396708665   0.000333391396708665  -0.00025 ) // Vertex s2 = 18 
+
+    (0.000414285714285714  	     0  	    -0.00025 ) // Vertex s3 = 19 
+
+    (0.000333391396708665   -0.000333391396708665 -0.00025 ) // Vertex s4 = 20 
+
+    (0               -0.000414285714285714             -0.00025 ) // Vertex s5 = 21 
+
+
+    (0   	     0.000725   	     0.00025 ) // Vertex R6 = 22 
+
+    (0.000512652416360247   0.000512652416360247   0.00025 ) // Vertex R7 = 23 
+
+    (0.000725   	     0   	     0.00025 ) // Vertex R8 = 24 
+
+    (0.000512652416360247   -0.000512652416360247  0.00025 ) // Vertex R9 = 25 
+
+    (0   	     -0.000725   	     0.00025 ) // Vertex R10 = 26 
+
+
+    (0               0.000414285714285714               0.00025 ) // Vertex s6 = 27 
+
+    (0.000333391396708665   0.000333391396708665   0.00025 ) // Vertex s7 = 28 
+
+    (0.000414285714285714  	     0  	     0.00025 ) // Vertex s8 = 29 
+
+    (0.000333391396708665   -0.000333391396708665  0.00025 ) // Vertex s9 = 30 
+
+    (0  	     -0.000414285714285714  	     0.00025 ) // Vertex s10 = 31 
+
+
+    (0  	     0              -0.00025 ) // Vertex C1 = 32 
+
+    (0  	     0  	     0.00025 ) // Vertex C2 = 33 
+
+
+
+);
+
+blocks
+(
+    //Air blocks
+    hex (3 9 6 0 4 10 7 1)  (1 50 20)     simpleGrading (1 100 1)
+    hex (4 10 7 1 5 11 8 2) (1 50 20)     simpleGrading (1 100 1)
+
+    //Droplet blocks outer
+    hex (12 17 18 13 22 27 28 23)   (10 10 1)   simpleGrading (3 1 1)
+    hex (13 18 19 14 23 28 29 24)   (10 10 1)   simpleGrading (3 1 1)
+    hex (14 19 20 15 24 29 30 25)   (10 10 1)   simpleGrading (3 1 1)
+    hex (15 20 21 16 25 30 31 26) (10 10 1)   simpleGrading (3 1 1)
+
+    //Droplet blocks inner
+    hex (17 32 19 18 27 33 29 28)   (10 10 1)   simpleGrading (1 1 1)
+    hex (32 21 20 19 33 31 30 29)  (10 10 1)   simpleGrading (1 1 1)
+);
+
+edges
+(
+//Air arcs
+ arc 0 1 (0.014142 0.014142 0.00025 )
+ arc 6 7 (0.014142 0.014142 -0.00025 )
+ arc 1 2 (0.014142 -0.014142 0.00025 )
+ arc 7 8 (0.014142 -0.014142 -0.00025 )
+ arc 3 4 (0.0005126475 0.0005126475 0.00025 )
+ arc 9 10 (0.0005126475 0.0005126475 -0.00025 )
+ arc 4 5 (0.0005126475 -0.0005126475 0.00025 )
+ arc 10 11 (0.0005126475 -0.0005126475 -0.00025 )
+
+
+ //Droplet outer arcs
+ arc 12 13 (0.000277445488464692 0.000669812661070682 -0.00025 )
+ arc 13 14 (0.000669812661070683 0.00027744548846469 -0.00025 )
+ arc 14 15 (0.000669812661070683 -0.00027744548846469 -0.00025 )
+ arc 15 16 (0.000277445488464692 -0.000669812661070682 -0.00025 )
+
+ arc 22 23 (0.000277445488464692 0.000669812661070682 0.00025 )
+ arc 23 24 (0.000669812661070683 0.00027744548846469 0.00025 )
+ arc 24 25 (0.000669812661070683 -0.00027744548846469 0.00025 )
+ arc 25 26 (0.000277445488464692 -0.000669812661070682 0.00025 )
+
+ //Droplet inner arcs
+ //arc s1 s2 (calc(m*cos67_5) calc(m*sin67_5) -calc(L/2) )
+ //arc s2 s3 (calc(m*cos22_5) calc(m*sin22_5) -calc(L/2) )
+ //arc s3 s4 (calc(m*cos22_5) calc(-m*sin22_5) -calc(L/2) )
+ //arc s4 s5 (calc(m*cos67_5) calc(-m*sin67_5) -calc(L/2) )
+
+ //arc s6 s7 (calc(m*cos67_5) calc(m*sin67_5) calc(L/2) )
+ //arc s7 s8 (calc(m*cos22_5) calc(m*sin22_5) calc(L/2) )
+ //arc s8 s9 (calc(m*cos22_5) calc(-m*sin22_5) calc(L/2) )
+ //arc s9 s10 (calc(m*cos67_5) calc(-m*sin67_5) calc(L/2) )
+
+
+);
+
+boundary
+(
+    space
+    {
+        type patch;
+        faces
+        (
+	    (0 1 7 6)
+	    (1 2 8 7)
+        );
+    }
+
+    freeSurface
+    {
+        type patch;
+        faces
+        (
+	    (3 9 10 4)
+	    (4 10 11 5)
+        );
+    }
+    freeSurfaceShadow
+    {
+        type patch;
+        faces
+        (
+	    (12 22 23 13)
+	    (13 23 24 14)
+	    (14 24 25 15)
+	    (25 26 16 15)
+        );
+    }
+    axisPlane
+    {
+    	type patch;
+    	faces
+    	(
+    	    (0 6 9 3)
+    	    (5 11 8 2)
+	    (22 12 17 27)
+    	    (27 17 32 33)
+    	    (33 32 21 31)
+    	    (31 21 16 26)
+    	);
+    }
+    wedge_pos
+    {
+        type patch;
+        faces
+	(
+            //Front wedge side
+            (0 3 4 1)
+            (4 5 2 1)
+            (23 22 27 28)
+            (24 23 28 29)
+            (25 24 29 30)
+            (26 25 30 31)
+            (28 27 33 29)
+            (33 31 30 29)
+	);
+    }
+    wedge_neg
+    {
+        type patch;
+        faces
+	(
+            //Back wedge side
+            (6 7 10 9)
+            (7 8 11 10)
+            (12 13 18 17)
+            (13 14 19 18)
+            (14 15 20 19)
+            (15 16 21 20)
+            (17 18 19 32)
+            (32 19 20 21)
+	);
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //

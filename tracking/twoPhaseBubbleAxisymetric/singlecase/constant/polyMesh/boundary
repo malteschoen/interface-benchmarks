@@ -16,31 +16,43 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-4
+6
 (
-    inlet
+    space
     {
         type            patch;
-        nFaces          312;
-        startFace       12528;
+        nFaces          40;
+        startFace       5070;
     }
-    side
+    freeSurface
     {
         type            patch;
-        nFaces          624;
-        startFace       12840;
+        nFaces          40;
+        startFace       5110;
     }
-    outlet
+    freeSurfaceShadow
     {
         type            patch;
-        nFaces          312;
-        startFace       13464;
+        nFaces          40;
+        startFace       5150;
     }
-    defaultFaces
+    axisPlane
     {
         type            patch;
-        nFaces          624;
-        startFace       13776;
+        nFaces          140;
+        startFace       5190;
+    }
+    wedge_pos
+    {
+        type            patch;
+        nFaces          2600;
+        startFace       5330;
+    }
+    wedge_neg
+    {
+        type            patch;
+        nFaces          2600;
+        startFace       7930;
     }
 )
 

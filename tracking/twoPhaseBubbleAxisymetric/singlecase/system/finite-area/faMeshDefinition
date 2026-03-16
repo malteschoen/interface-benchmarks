@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v2312                                 |
-|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -10,26 +10,27 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      setFieldsDict;
+    object      faMeshDefinition;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-defaultFieldValues
-(
-    volScalarFieldValue alpha.melt 1
-);
+polyMeshPatches  1( freeSurface );
 
-regions
-(
-    boxToCell
+boundary
+{
+    wedge_neg
     {
-        box (-100 -100 -100) (100 100 0);
-        fieldValues
-        (
-            volScalarFieldValue alpha.melt 0
-        );
+        type newWedge;
+        ownerPolyPatch freeSurface;
+        neighbourPolyPatch wedge_neg;
     }
-);
+    wedge_pos
+    {
+        type newWedge;
+        ownerPolyPatch freeSurface;
+        neighbourPolyPatch wedge_pos;
+    }
+}
 
 
-// ************************************************************************* //
+// ************************************************************************** //

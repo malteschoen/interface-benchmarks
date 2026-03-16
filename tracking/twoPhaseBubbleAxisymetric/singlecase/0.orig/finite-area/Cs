@@ -1,0 +1,50 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       areaScalarField;
+    location    "0";
+    object      Cs;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions          [0 -2 0 0 1 0 0];
+
+internalField       uniform 0; // TODO: initial surface concentration is zero?
+
+// referenceLevel      0;
+
+boundaryField
+{
+    wedge_neg
+    {
+        type newWedge; //empty;
+    }
+
+    wedge_pos
+    {
+        type newWedge; //empty;
+    }
+
+    // inlet
+    // {
+    //     //type empty;
+    //     //type zeroGradient;
+    //     type fixedValue;
+    //     value uniform 0;
+    // }
+
+    freeSurface
+    {
+        type calculated;
+    }
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

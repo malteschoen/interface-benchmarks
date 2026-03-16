@@ -1,0 +1,53 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   interfaceTrackingFvMesh;
+
+motionSolver refVelocityLaplacian;
+useRefConfig true;
+nNonOrthogonalCorrectors 3;
+
+// diffusivity uniform;
+diffusivity quadratic repairedInverseDistance 2(freeSurface freeSurfaceShadow);
+
+interpolation leastSquares;
+
+
+// Free surface data
+
+fsPatchName freeSurface;
+fsShadowPatchName freeSurfaceShadow;
+
+
+fixedFreeSurfacePatches 0();
+pointNormalsCorrectionPatches 0();
+
+normalMotionDir true;
+motionDir (0 1 0);
+pureFreeSurface true;
+
+
+smoothing false;
+facSnGradUn false;
+
+
+fsMappingMethod directMap;
+directMapCoeffs
+{
+}
+
+// ************************************************************************* //
