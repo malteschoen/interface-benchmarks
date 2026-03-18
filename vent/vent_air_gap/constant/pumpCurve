@@ -1,0 +1,15 @@
+// left entries: (throughput in m³/s across boundary connected to pump
+// right entries: relative = excesss pressure at which the fluid is delivered into our domain (in pascals, relative to p0 level )
+// set all pressures to same value to emulate a fixed pressure (duh)
+// set all pressures past the desired throughput to 0 to emulate the max pump rate of e.g an extruder
+// similarly,connect high pressures to near-zero rates to model being unable to push melt into an already full cavity
+// this means that once pressure at the inlet spikes, flow will drop
+// to still get the inflow rate you desire, connect a large number of low and and high pressures to it
+// this means that no matter which pressure the inlet sees, it will always attempt to push your dream flow rate
+(
+(1.50e-12 0.0e05)
+(1.49e-4 0.50e05)
+(1.50e-4 1.00e05)
+(1.51e-4 1.25e05)
+(1.52e-4 1.50e05)
+)

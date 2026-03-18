@@ -1,0 +1,78 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2512                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    arch        "LSB;label=32;scalar=64";
+    class       volScalarField;
+    location    "0";
+    object      alpha.air;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+	inlet
+   	 {
+        type            codedFixedValue;			
+        value           uniform 0;					
+        name	    alphaProfileInlet;	
+
+        code							
+        #{
+	const vectorField& Cf = this->patch().Cf();
+
+
+        scalarField alpha(Cf.size(), 0.0);
+		
+            	forAll(Cf, faceI)					
+            	{
+		scalar z = Cf[faceI].z();
+
+		    if (z > 0)
+		    {
+		        alpha[faceI] = 0.0;
+		    }
+		    else
+		    {
+		        alpha[faceI] = 0.0;
+		    }
+		}
+
+        operator==(alpha);
+		
+        #};
+    }
+
+    symm
+    {
+        type            symmetry;
+    }
+    outlet
+    {
+        type            inletOutlet;
+        inletValue      uniform 1;
+        value           uniform 0;
+    }
+    side
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            zeroGradient;
+    }
+}
+
+
+// ************************************************************************* //

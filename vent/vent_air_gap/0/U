@@ -1,0 +1,105 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2312                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inletZG
+    {
+        type            zeroGradient;
+    }
+
+
+    inlet
+    {
+        type            fixedValue;
+        value           uniform (0 0.01 0);
+	volumetricFlowRate 5e-7;
+    }
+
+    outlet
+    {
+
+    type            codedMixed;
+    refValue        uniform (0 0 0);   // noSlip value
+    refGradient     uniform (0 0 0);   // zeroGradient
+    valueFraction   uniform 0;         // will be overridden in code
+
+    name            alphaSwitchBC;
+
+    code
+    #{
+        // Access alpha field (assumes volScalarField named "alpha")
+        const volScalarField& alpha =
+            db().lookupObject<volScalarField>("alpha.air");
+
+        const scalarField& alphaP =
+            alpha.boundaryField()[patch().index()];
+
+	const vectorField& Sf = patch().Sf();
+	const scalarField magSf = mag(Sf);
+
+        vectorField& refValue = *this;
+        scalarField& valueFraction = this->valueFraction();
+
+	    
+        // Loop over patch faces
+        forAll(alphaP, i)
+        {
+            // alpha = 1 → zeroGradient → valueFraction = 0
+            // alpha = 0 → fixedValue (noSlip) → valueFraction = 1
+            valueFraction[i] = 1.0 - alphaP[i];
+
+            // noSlip value
+            //refValue[i] = vector::zero;
+		
+		//redirect flow laterally maybe?
+		vector n = Sf[i]/(magSf[i] + SMALL);
+
+		vector Up = this->internalField()[patch().faceCells()[i]];
+		refValue[i] = Up - (Up & n)*n;
+        }
+    #};
+    }
+
+    outletNew
+    {
+        type            zeroGradient;
+    }
+
+    "defaultFaces"
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    "side"
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    "symm"
+    {
+        type            symmetry;
+    }
+}
+
+
+// ************************************************************************* //

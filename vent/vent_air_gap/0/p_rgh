@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2312                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p_rgh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1e5;
+
+boundaryField
+{
+	outlet
+	{
+		type	prghTotalPressure;
+		//p0 is the base level of pressure, usually 1 bar - highly recommend to put in $internalField
+		p0	$internalField;
+		U	U;
+		phi	phi;
+	}
+
+
+    outlet_old
+    {
+        type            totalPressure;
+		p0	$internalField; 
+    }
+
+    "defaultFaces|side|"
+    {
+        type            fixedFluxPressure;
+    }
+
+    "inlet"
+    {
+        type            zeroGradient;
+    }
+
+	"inletPumped"
+	{
+		type	fanPressure;
+		value	$internalField; 
+		p0	$internalField; 
+		U	U;
+		phi	phi;
+		file "constant/pumpCurve";
+		outofBounds clamp; 
+		interpolationscheme linear;
+		direction in;
+	}
+
+
+}
+
+// ************************************************************************* //
